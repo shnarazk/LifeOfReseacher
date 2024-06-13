@@ -8,11 +8,14 @@
 import Foundation
 import SwiftData
 
+// これはタスクに相当するようだ
 @Model
 final class Item {
     var timestamp: Date
-    
-    init(timestamp: Date) {
+    var name: String
+
+    init(timestamp: Date, name: String) {
         self.timestamp = timestamp
+        self.name = name
     }
 }

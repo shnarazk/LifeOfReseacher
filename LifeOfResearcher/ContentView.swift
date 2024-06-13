@@ -14,32 +14,44 @@ struct ContentView: View {
 
     var body: some View {
         NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+            VStack {
+                List {
+                    ForEach(items) { item in
+                        NavigationLink {
+                            VStack {
+                                Text("\(item.name) by \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
+                            }
+                        } label: {
+                            Text(item.name)
+                            Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+                        }
+                    }
+                    .onDelete(perform: deleteItems)
+                }
+                .navigationSplitViewColumnWidth(min: 180, ideal: 200)
+                .toolbar {
+                    ToolbarItem {
+                        Button(action: addItem) {
+                            Label("Add Item", systemImage: "plus")
+                        }
                     }
                 }
-                .onDelete(perform: deleteItems)
-            }
-            .navigationSplitViewColumnWidth(min: 180, ideal: 200)
-            .toolbar {
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
+//                Button (action: addItem) {
+//                    Label("End of term1", systemImage: "forward")
+//                }
+//                Button (action: addItem) {
+//                    Label("End of term2", systemImage: "forward")
+//                }
             }
         } detail: {
             Text("Select an item")
         }
+
     }
 
     private func addItem() {
         withAnimation {
-            let newItem = Item(timestamp: Date())
+            let newItem = Item(timestamp: Date(), name: "現在抱えている仕事")
             modelContext.insert(newItem)
         }
     }
